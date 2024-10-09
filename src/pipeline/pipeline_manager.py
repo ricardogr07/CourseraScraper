@@ -7,16 +7,27 @@ from handlers.visual_map_handler import VisualMapHandler
 from utils.logger import Logger
 
 class PipelineManager:
-    def __init__(self, video_file_path: str):
+    def __init__(self, video_file_path: Optional[str] = None, transcript_path: Optional[str] = None):
         self.video_file_path = video_file_path
-        self.base_dir = os.path.dirname(video_file_path)
-        self.video_name = os.path.splitext(os.path.basename(video_file_path))[0]
+        self.transcript_path = transcript_path
 
-        self.transcript_path = os.path.join(self.base_dir, f"{self.video_name}_transcript.txt")
+        # Determine base directory and video name if video file is provided
+        if self.video_file_path:
+            self.base_dir = os.path.dirname(video_file_path)
+            self.video_name = os.path.splitext(os.path.basename(video_file_path))[0]
+        elif self.transcript_path:
+            self.base_dir = os.path.dirname(transcript_path)
+            self.video_name = os.path.splitext(os.path.basename(transcript_path))[0]
+        else:
+            raise ValueError("Either video_file_path or transcript_path must be provided.")
+
+        # Define paths for intermediate and output files if not already provided
+        self.transcript_path = self.transcript_path or os.path.join(self.base_dir, f"{self.video_name}_transcript.txt")
         self.summary_path = os.path.join(self.base_dir, f"{self.video_name}_summary.txt")
         self.concept_map_path = os.path.join(self.base_dir, f"{self.video_name}_concept_map.txt")
         self.visual_map_path = os.path.join(self.base_dir, f"{self.video_name}_visual_map.png")
 
+        # Initialize the logger
         self.logger = Logger("pipeline_manager.log")
 
     def run(self):
@@ -32,6 +43,18 @@ class PipelineManager:
         self.generate_visual_map()
 
         self.logger.log.info("Pipeline process completed successfully.")
+
+    def run_from_transcript(self):
+        """Execute the pipeline starting from an existing transcript."""
+        self.logger.log.info("Starting the pipeline process from an existing transcript.")
+
+        self.generate_summary()
+
+        self.generate_concept_map()
+
+        self.generate_visual_map()
+
+        self.logger.log.info("Pipeline process completed successfully from transcript.")
 
     def transcribe_video(self):
         """Create a transcript from the video file."""

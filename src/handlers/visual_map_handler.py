@@ -3,6 +3,7 @@ from handlers.handler import Handler
 from typing import Optional
 
 import spacy
+import os
 import matplotlib.pyplot as plt
 import networkx as nx
 from typing import List, Optional
