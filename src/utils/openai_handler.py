@@ -63,11 +63,11 @@ class BaseOpenAIHandler(OpenAIHandler):
         try:
             completion = self.client.chat.completions.create(
                 messages=messages,
-                model="gpt-4",  # Example model; use the appropriate model version here
+                model="gpt-4",
             )
             result = completion.choices[0].message.content
             
-            return result  # Returning the markdown content as a string.
+            return result
         
         except Exception as e:
             self.logger.log.error(f"Unexpected error: {e}")
