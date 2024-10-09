@@ -73,7 +73,6 @@ class BaseOpenAIHandler(OpenAIHandler):
             self.logger.log.error(f"Unexpected error: {e}")
             raise
 
-
 class MarkdownFileHandler(BaseOpenAIHandler):
     """
     Handler for converting .txt files to markdown and saving them as .md files.
