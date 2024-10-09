@@ -5,6 +5,7 @@ import os
 from typing import Optional
 from utils.openai_handler import BaseOpenAIHandler
 
+
 class ISummaryHandler(Handler):
     @abstractmethod
     def summarize(self) -> Optional[str]:
@@ -84,8 +85,7 @@ class SummaryHandler(ISummaryHandler, BaseOpenAIHandler):
         self.save_summary(self.summary_output_path)
 
 if __name__ == "__main__":
-    transcript_path = "Semana_1_Webinar_Bienvenida.txt"  # The .txt file generated from the transcription.
-    summary_output_path = "Summary.txt"  # Optional: specify a different output path.
+    transcript_path = "Semana_1_Webinar_Bienvenida.txt"
 
-    summary_handler = SummaryHandler(transcript_path, summary_output_path)
+    summary_handler = SummaryHandler(transcript_path)
     summary_handler.process()
