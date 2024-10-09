@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from Utils.logger import Logger
+from utils.logger import Logger
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
