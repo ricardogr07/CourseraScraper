@@ -19,6 +19,7 @@ class PipelineManager:
         elif self.transcript_path:
             self.base_dir = os.path.dirname(transcript_path)
             self.video_name = os.path.splitext(os.path.basename(transcript_path))[0]
+            self.video_name = self.video_name.replace("_transcript", "")
         else:
             raise ValueError("Either video_file_path or transcript_path must be provided.")
 
